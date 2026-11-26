@@ -1,8 +1,25 @@
-# krillion't
+<p align="center">
+  <img src="./res/logo.png" alt="krillion't logo" width="160">
+</p>
 
-A small Tampermonkey userscript that displays the highest-scoring answers for Krillion's Daily Dive.
-Not sure why you'd want to cheat at a daily word game, but here we are. 
+<h1 align="center">krillion't</h1>
 
+<p align="center">
+  Highest-scoring Daily Dive answers, right inside Krillion.
+</p>
+
+<p align="center">
+  <a href="#installation">Installation</a> ·
+  <a href="#how-it-works">How it works</a> ·
+  <a href="./krilliont.user.js">Userscript</a> ·
+  <a href="./LICENSE">MIT License</a>
+</p>
+
+<p align="center">
+  <sub>Not sure why you'd want to cheat at a daily word game, but here we are.</sub>
+</p>
+
+---
 ## Installation
 
 1. Install [Tampermonkey](https://www.tampermonkey.net/).
