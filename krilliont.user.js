@@ -2,7 +2,7 @@
 // @name         krillion't
 // @author       naujaan
 // @namespace    krilliont
-// @version      1.0
+// @version      1.3
 // @description  Shows ones in the krillion.
 // @match        https://krillion.io/*
 // @run-at       document-idle
@@ -25,7 +25,6 @@
 
   shadow.innerHTML = `
     <style>
-
       .panel {
         background: #101d33;
         color: #e8f1ff;
@@ -38,6 +37,10 @@
       }
 
       h2 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
         margin: 0;
         padding: 13px 18px 11px;
         border-bottom: 2px solid #4de3ff;
@@ -45,6 +48,34 @@
         font-weight: 400;
         letter-spacing: .14em;
         text-transform: uppercase;
+      }
+
+      .toggle {
+        padding: 0 4px;
+        border: none;
+        background: transparent;
+        color: #4de3ff;
+        font: inherit;
+        font-size: 24px;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .toggle:hover {
+        color: #e8f1ff;
+      }
+
+      .toggle:focus-visible {
+        outline: 2px solid #4de3ff;
+        outline-offset: 4px;
+      }
+
+      .panel.collapsed h2 {
+        border-bottom: none;
+      }
+
+      .answers[hidden] {
+        display: none;
       }
 
       .answers {
@@ -87,15 +118,39 @@
     </style>
 
     <section class="panel" aria-label="Krillion't answers">
-      <h2>krillion't</h2>
-      <div class="answers" aria-live="polite">
+      <h2>
+        krillion't
+        <button
+          type="button"
+          class="toggle"
+          aria-label="Collapse answers"
+          aria-expanded="true"
+          aria-controls="krilliont-answers"
+        >▲</button>
+      </h2>
+      <div id="krilliont-answers" class="answers" aria-live="polite">
         <p class="status">Loading answers…</p>
       </div>
     </section>
   `;
 
   document.body.appendChild(host);
+
+  const panel = shadow.querySelector('.panel');
   const content = shadow.querySelector('.answers');
+  const toggle = shadow.querySelector('.toggle');
+
+  toggle.addEventListener('click', () => {
+    const collapsed = panel.classList.toggle('collapsed');
+
+    content.hidden = collapsed;
+    toggle.textContent = collapsed ? '▼' : '▲';
+    toggle.setAttribute('aria-expanded', String(!collapsed));
+    toggle.setAttribute(
+      'aria-label',
+      collapsed ? 'Expand answers' : 'Collapse answers'
+    );
+  });
 
   async function getJSON(url) {
     const response = await fetch(url);
@@ -144,6 +199,7 @@
     const status = document.createElement('p');
     status.className = 'status';
     status.textContent = `Could not load answers: ${error.message}`;
+
     content.replaceChildren(status);
     console.error("krillion't:", error);
   }
